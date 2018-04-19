@@ -2,7 +2,7 @@
 
 function conectar()
 {
-	return pg_connect('host=localhost port=5432 dbname=aula03 user=adriano password=123');	
+	return mysqli_connect('localhost','adriano','@da4linux','Aula03');	
 }
 
 /*
@@ -22,7 +22,7 @@ function inserir(string $tabela, array $dados)
 	$query = "INSERT INTO {$tabela} ({$campos}) VALUES ({$valores})";
 
 	$con = conectar();
-	pg_query($con,$query);
+	mysqli_query($con,$query);
 }
 /*
  * $tabela = usuarios
@@ -40,7 +40,7 @@ function editar(string $tabela, array $dados, string $onde)
 	$query = "UPDATE {$tabela} SET {$sets} WHERE {$onde}";
 
 	$con = conectar();
-	pg_query($con,$query);
+	mysqli_query($con,$query);
 }
 
 /*
@@ -52,7 +52,7 @@ function deletar(string $tabela, string $onde)
 	$query = "DELETE FROM {$tabela} WHERE {$onde}";
 
 	$con = conectar();
-	pg_query($con,$query);
+	mysqli_query($con,$query);
 }
 
 /*
@@ -63,10 +63,9 @@ function deletar(string $tabela, string $onde)
 function buscar(string $tabela, string $campos = '*', string $onde)
 {
 	$query = "SELECT {$campos} FROM {$tabela} WHERE {$onde}";
-	$con = conecta();
-	$result = $pg_query($con,$query);
-	return pg_fetch_assoc($result); 
-		   
+	$con = conectar();
+	$result = mysqli_query($con,$query);
+	return mysqli_fetch_assoc($result);
 }
 
 /*
@@ -77,7 +76,6 @@ function buscar(string $tabela, string $campos = '*', string $onde)
  * $ordem = id
  * $limite = 3
  */
-
 function buscarTodos(
 	string $tabela, 
 	string $campos = '*', 
@@ -102,10 +100,9 @@ function buscarTodos(
 
 	if ($limite) {
 		$query .= " LIMIT {$limite}";
-	}	
+	}
 
-	$con = conecta();
-	$result = pg_query($con,$query);
-    return pg_fetch_all($result);
-
-}	
+	$con = conectar();
+	$result = mysqli_query($con,$query);
+    return mysqli_fetch_all($result,MYSQLI_ASSOC);
+}

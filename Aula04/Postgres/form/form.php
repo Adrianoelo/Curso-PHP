@@ -7,4 +7,3 @@
 
 <?php
 
-echo '<pre>';
